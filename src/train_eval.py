@@ -30,15 +30,20 @@ def setup_logging(args):
     logging.info(f"Logging to: {log_file}")
     return log_file
 
-def train_model(model, train_loader, vocab_size, device, epochs=1, lr=1e-4):
+def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, lr=1e-4):
     logging.info("=== Starting Training ===")
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     
+    # Create checkpoints directory
+    os.makedirs('checkpoints', exist_ok=True)
+    
+    best_val_loss = float('inf')
     total_steps = len(train_loader)
     start_time = time.time()
     
     for epoch in range(epochs):
+        # Training phase
         model.train()
         epoch_loss = 0.0
         epoch_start_time = time.time()
@@ -46,7 +51,6 @@ def train_model(model, train_loader, vocab_size, device, epochs=1, lr=1e-4):
         for batch_idx, (x, y) in enumerate(train_loader, 1):
             batch_start = time.time()
             
-            # Move data to device
             x = x.to(device)
             y = y.to(device)
             
@@ -59,7 +63,6 @@ def train_model(model, train_loader, vocab_size, device, epochs=1, lr=1e-4):
             batch_loss = loss.item()
             epoch_loss += batch_loss
             
-            # Log every 100 batches
             if batch_idx % 100 == 0:
                 avg_loss = epoch_loss / batch_idx
                 progress = (batch_idx / total_steps) * 100
@@ -72,25 +75,49 @@ def train_model(model, train_loader, vocab_size, device, epochs=1, lr=1e-4):
                     f"Batch Time: {batch_time:.2f}s"
                 )
         
-        # End of epoch logging
+        avg_train_loss = epoch_loss / total_steps
+        
+        # Validation phase
+        val_loss = evaluate_model(model, val_loader, vocab_size, device)
+        
+        # Save checkpoint if validation loss improved
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            checkpoint = {
+                'epoch': epoch + 1,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'train_loss': avg_train_loss,
+                'val_loss': val_loss,
+                'config': {
+                    'd_model': model.encoder.layers[0].self_attn.d_model,
+                    'num_heads': model.encoder.layers[0].self_attn.num_heads,
+                    'd_ff': model.encoder.layers[0].feed_forward.linear1.out_features,
+                    'num_layers': len(model.encoder.layers),
+                    'dropout': model.dropout.p,
+                }
+            }
+            checkpoint_path = f'checkpoints/model_epoch{epoch+1}_valloss{val_loss:.4f}.pt'
+            torch.save(checkpoint, checkpoint_path)
+            logging.info(f"Saved checkpoint to {checkpoint_path}")
+        
         epoch_time = time.time() - epoch_start_time
-        avg_epoch_loss = epoch_loss / total_steps
         logging.info(
             f"Epoch {epoch+1}/{epochs} completed | "
-            f"Avg Loss: {avg_epoch_loss:.4f} | "
+            f"Train Loss: {avg_train_loss:.4f} | "
+            f"Val Loss: {val_loss:.4f} | "
             f"Time: {epoch_time:.2f}s"
         )
     
     total_time = time.time() - start_time
     logging.info(f"Training completed in {total_time:.2f}s")
+    return best_val_loss
 
 def evaluate_model(model, val_loader, vocab_size, device):
-    logging.info("=== Starting Evaluation ===")
     model.eval()
     criterion = nn.CrossEntropyLoss()
     total_loss = 0.0
     total_steps = len(val_loader)
-    start_time = time.time()
     
     with torch.no_grad():
         for batch_idx, (x, y) in enumerate(val_loader, 1):
@@ -112,12 +139,14 @@ def evaluate_model(model, val_loader, vocab_size, device):
                 )
     
     final_avg_loss = total_loss / total_steps
-    total_time = time.time() - start_time
-    logging.info(
-        f"Evaluation completed | "
-        f"Final Loss: {final_avg_loss:.4f} | "
-        f"Time: {total_time:.2f}s"
-    )
+    return final_avg_loss
+
+def load_checkpoint(model, optimizer, checkpoint_path):
+    checkpoint = torch.load(checkpoint_path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    if optimizer is not None:
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    return checkpoint['epoch'], checkpoint['train_loss'], checkpoint['val_loss']
 
 def main():
     parser = argparse.ArgumentParser(description="Train/Evaluate Transformer model on WikiText-2")
@@ -127,6 +156,7 @@ def main():
     parser.add_argument("--epochs", type=int, default=1, help="Number of epochs")
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
     parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate")
+    parser.add_argument("--checkpoint", type=str, help="Path to checkpoint to resume from")
     args = parser.parse_args()
 
     # Setup logging
@@ -176,17 +206,21 @@ def main():
         max_skip_prob=max_skip_prob
     ).to(device)
 
-    # Log model parameters
-    total_params = sum(p.numel() for p in model.parameters())
-    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    logging.info(f"Total parameters: {total_params:,}")
-    logging.info(f"Trainable parameters: {trainable_params:,}")
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+
+    # Load checkpoint if specified
+    start_epoch = 0
+    if args.checkpoint:
+        logging.info(f"Loading checkpoint from {args.checkpoint}")
+        start_epoch, train_loss, val_loss = load_checkpoint(model, optimizer, args.checkpoint)
+        logging.info(f"Resumed from epoch {start_epoch} with train_loss: {train_loss:.4f}, val_loss: {val_loss:.4f}")
 
     if args.train:
-        train_model(model, train_loader, vocab_size, device, args.epochs, args.lr)
+        train_model(model, train_loader, val_loader, vocab_size, device, args.epochs, args.lr)
 
     if args.eval:
-        evaluate_model(model, val_loader, vocab_size, device)
+        val_loss = evaluate_model(model, val_loader, vocab_size, device)
+        logging.info(f"Final validation loss: {val_loss:.4f}")
 
     logging.info("Done!")
 
