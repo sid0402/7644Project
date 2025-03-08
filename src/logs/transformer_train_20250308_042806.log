@@ -1,0 +1,23 @@
+2025-03-08 04:28:06,462 | Logging to: logs/transformer_train_20250308_042806.log
+2025-03-08 04:28:06,462 | === Configuration ===
+2025-03-08 04:28:06,462 | Sequence length: 200
+2025-03-08 04:28:06,463 | Batch size: 32
+2025-03-08 04:28:06,463 | Learning rate: 0.0001
+2025-03-08 04:28:06,463 | Epochs: 1
+2025-03-08 04:28:06,463 | Model dimension: 256
+2025-03-08 04:28:06,463 | Number of layers: 12
+2025-03-08 04:28:06,463 | Number of heads: 8
+2025-03-08 04:28:06,463 | Feed-forward dim: 1024
+2025-03-08 04:28:06,463 | Dropout: 0.2
+2025-03-08 04:28:06,463 | Layer skip probability: 0.3
+2025-03-08 04:28:06,463 | Layer dropout: enabled
+2025-03-08 04:28:06,463 | Loading WikiText-2 dataset...
+2025-03-08 04:28:14,120 | Vocabulary size: 76618
+2025-03-08 04:28:14,268 | Using device: cuda
+2025-03-08 04:28:14,268 | Initializing Transformer model...
+2025-03-08 04:28:15,456 | === Starting Training ===
+2025-03-08 04:28:20,022 | New best model found with validation loss: 6.6655
+2025-03-08 04:28:20,022 | Epoch 1/1 completed | Train Loss: 8.5779 | Val Loss: 6.6655 | Time: 4.56s
+2025-03-08 04:28:22,118 | Saved best model to checkpoints/best_model_d256_h8_l12_ff1024_dp0.2_ls30_e1_val6.6655.pt
+2025-03-08 04:28:22,118 | Training completed in 6.66s
+2025-03-08 04:28:22,119 | Done!
