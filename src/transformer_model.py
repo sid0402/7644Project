@@ -143,6 +143,7 @@ class TransformerModel(nn.Module):
         self.encoder = TransformerEncoder(num_layers, d_model, num_heads, d_ff, dropout, max_skip_prob)
         self.dropout = nn.Dropout(dropout)
         self.fc_out = nn.Linear(d_model, vocab_size)
+        self.max_skip_prob = max_skip_prob
 
     def forward(self, src, src_mask=None):
         x = self.embedding(src) * math.sqrt(self.embedding.embedding_dim)
