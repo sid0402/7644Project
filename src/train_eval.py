@@ -176,19 +176,30 @@ def main():
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
     parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate")
     parser.add_argument("--checkpoint", type=str, help="Path to checkpoint to resume from")
+    
+    # New model architecture arguments
+    parser.add_argument("--seq_length", type=int, default=100, help="Sequence length for training")
+    parser.add_argument("--d_model", type=int, default=128, help="Model dimension")
+    parser.add_argument("--num_layers", type=int, default=6, help="Number of transformer layers")
+    parser.add_argument("--num_heads", type=int, default=8, help="Number of attention heads")
+    parser.add_argument("--d_ff", type=int, default=512, help="Feed-forward network dimension")
+    parser.add_argument("--dropout", type=float, default=0.1, help="Dropout rate")
+    parser.add_argument("--max_skip_prob", type=float, default=0.5, 
+                       help="Maximum layer skip probability (only used when layerskip is enabled)")
+    
     args = parser.parse_args()
 
     # Setup logging
     log_file = setup_logging(args)
 
-    # Log all hyperparameters
-    seq_length = 100
-    d_model = 128
-    num_layers = 6
-    num_heads = 8
-    d_ff = 512
-    dropout = 0.1
-    max_skip_prob = 0.5 if args.layerskip else 0.0
+    # Use args instead of hardcoded values
+    seq_length = args.seq_length
+    d_model = args.d_model
+    num_layers = args.num_layers
+    num_heads = args.num_heads
+    d_ff = args.d_ff
+    dropout = args.dropout
+    max_skip_prob = args.max_skip_prob if args.layerskip else 0.0
 
     logging.info("=== Configuration ===")
     logging.info(f"Sequence length: {seq_length}")
