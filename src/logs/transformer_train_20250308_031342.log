@@ -1,0 +1,42 @@
+2025-03-08 03:13:42,482 | Logging to: logs/transformer_train_20250308_031342.log
+2025-03-08 03:13:42,483 | === Configuration ===
+2025-03-08 03:13:42,483 | Sequence length: 100
+2025-03-08 03:13:42,483 | Batch size: 32
+2025-03-08 03:13:42,483 | Learning rate: 0.0001
+2025-03-08 03:13:42,483 | Epochs: 5
+2025-03-08 03:13:42,483 | Model dimension: 64
+2025-03-08 03:13:42,483 | Number of layers: 6
+2025-03-08 03:13:42,483 | Number of heads: 4
+2025-03-08 03:13:42,483 | Feed-forward dim: 256
+2025-03-08 03:13:42,483 | Dropout: 0.1
+2025-03-08 03:13:42,483 | Layer skip probability: 0.0
+2025-03-08 03:13:42,483 | Layer dropout: disabled
+2025-03-08 03:13:42,483 | Loading WikiText-2 dataset...
+2025-03-08 03:13:46,901 | Vocabulary size: 76618
+2025-03-08 03:13:47,099 | Using device: cuda
+2025-03-08 03:13:47,099 | Initializing Transformer model...
+2025-03-08 03:13:47,365 | Total parameters: 10,183,626
+2025-03-08 03:13:47,365 | Trainable parameters: 10,183,626
+2025-03-08 03:13:47,365 | === Starting Training ===
+2025-03-08 03:13:50,002 | Epoch: 1/5 | Batch: 100/384 (26.0%) | Loss: 9.6758 | Avg Loss: 10.3617 | Batch Time: 0.01s
+2025-03-08 03:13:51,361 | Epoch: 1/5 | Batch: 200/384 (52.1%) | Loss: 8.8118 | Avg Loss: 9.7935 | Batch Time: 0.01s
+2025-03-08 03:13:52,720 | Epoch: 1/5 | Batch: 300/384 (78.1%) | Loss: 8.1786 | Avg Loss: 9.3436 | Batch Time: 0.01s
+2025-03-08 03:13:53,858 | Epoch 1/5 completed | Avg Loss: 9.0099 | Time: 5.75s
+2025-03-08 03:13:55,222 | Epoch: 2/5 | Batch: 100/384 (26.0%) | Loss: 6.8981 | Avg Loss: 7.2092 | Batch Time: 0.01s
+2025-03-08 03:13:56,583 | Epoch: 2/5 | Batch: 200/384 (52.1%) | Loss: 6.3494 | Avg Loss: 6.9191 | Batch Time: 0.01s
+2025-03-08 03:13:57,942 | Epoch: 2/5 | Batch: 300/384 (78.1%) | Loss: 5.9208 | Avg Loss: 6.6488 | Batch Time: 0.01s
+2025-03-08 03:13:59,078 | Epoch 2/5 completed | Avg Loss: 6.4421 | Time: 5.22s
+2025-03-08 03:14:00,437 | Epoch: 3/5 | Batch: 100/384 (26.0%) | Loss: 5.1718 | Avg Loss: 5.3296 | Batch Time: 0.01s
+2025-03-08 03:14:01,796 | Epoch: 3/5 | Batch: 200/384 (52.1%) | Loss: 4.8398 | Avg Loss: 5.1699 | Batch Time: 0.01s
+2025-03-08 03:14:03,155 | Epoch: 3/5 | Batch: 300/384 (78.1%) | Loss: 4.6358 | Avg Loss: 5.0277 | Batch Time: 0.01s
+2025-03-08 03:14:04,290 | Epoch 3/5 completed | Avg Loss: 4.9229 | Time: 5.21s
+2025-03-08 03:14:05,647 | Epoch: 4/5 | Batch: 100/384 (26.0%) | Loss: 4.1620 | Avg Loss: 4.3643 | Batch Time: 0.01s
+2025-03-08 03:14:07,005 | Epoch: 4/5 | Batch: 200/384 (52.1%) | Loss: 4.0453 | Avg Loss: 4.2721 | Batch Time: 0.01s
+2025-03-08 03:14:08,366 | Epoch: 4/5 | Batch: 300/384 (78.1%) | Loss: 3.9484 | Avg Loss: 4.1806 | Batch Time: 0.01s
+2025-03-08 03:14:09,503 | Epoch 4/5 completed | Avg Loss: 4.1104 | Time: 5.21s
+2025-03-08 03:14:10,859 | Epoch: 5/5 | Batch: 100/384 (26.0%) | Loss: 3.5688 | Avg Loss: 3.7274 | Batch Time: 0.01s
+2025-03-08 03:14:12,216 | Epoch: 5/5 | Batch: 200/384 (52.1%) | Loss: 3.5691 | Avg Loss: 3.6684 | Batch Time: 0.01s
+2025-03-08 03:14:13,572 | Epoch: 5/5 | Batch: 300/384 (78.1%) | Loss: 3.4353 | Avg Loss: 3.6065 | Batch Time: 0.01s
+2025-03-08 03:14:14,707 | Epoch 5/5 completed | Avg Loss: 3.5500 | Time: 5.20s
+2025-03-08 03:14:14,707 | Training completed in 26.60s
+2025-03-08 03:14:14,707 | Done!
