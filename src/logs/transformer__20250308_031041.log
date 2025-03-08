@@ -1,0 +1,20 @@
+2025-03-08 03:10:41,121 | Logging to: logs/transformer__20250308_031041.log
+2025-03-08 03:10:41,121 | === Configuration ===
+2025-03-08 03:10:41,121 | Sequence length: 100
+2025-03-08 03:10:41,121 | Batch size: 32
+2025-03-08 03:10:41,121 | Learning rate: 0.0001
+2025-03-08 03:10:41,121 | Epochs: 1
+2025-03-08 03:10:41,121 | Model dimension: 64
+2025-03-08 03:10:41,121 | Number of layers: 6
+2025-03-08 03:10:41,121 | Number of heads: 4
+2025-03-08 03:10:41,121 | Feed-forward dim: 256
+2025-03-08 03:10:41,121 | Dropout: 0.1
+2025-03-08 03:10:41,121 | Layer skip probability: 0.0
+2025-03-08 03:10:41,121 | Layer dropout: disabled
+2025-03-08 03:10:41,121 | Loading WikiText-2 dataset...
+2025-03-08 03:10:46,834 | Vocabulary size: 76618
+2025-03-08 03:10:47,037 | Using device: cuda
+2025-03-08 03:10:47,037 | Initializing Transformer model...
+2025-03-08 03:10:49,921 | Total parameters: 10,183,626
+2025-03-08 03:10:49,921 | Trainable parameters: 10,183,626
+2025-03-08 03:10:49,922 | Done!

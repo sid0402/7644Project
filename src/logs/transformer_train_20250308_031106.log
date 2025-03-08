@@ -1,0 +1,26 @@
+2025-03-08 03:11:06,631 | Logging to: logs/transformer_train_20250308_031106.log
+2025-03-08 03:11:06,631 | === Configuration ===
+2025-03-08 03:11:06,631 | Sequence length: 100
+2025-03-08 03:11:06,631 | Batch size: 32
+2025-03-08 03:11:06,631 | Learning rate: 0.0001
+2025-03-08 03:11:06,631 | Epochs: 1
+2025-03-08 03:11:06,631 | Model dimension: 64
+2025-03-08 03:11:06,631 | Number of layers: 6
+2025-03-08 03:11:06,631 | Number of heads: 4
+2025-03-08 03:11:06,631 | Feed-forward dim: 256
+2025-03-08 03:11:06,631 | Dropout: 0.1
+2025-03-08 03:11:06,631 | Layer skip probability: 0.0
+2025-03-08 03:11:06,631 | Layer dropout: disabled
+2025-03-08 03:11:06,631 | Loading WikiText-2 dataset...
+2025-03-08 03:11:11,155 | Vocabulary size: 76618
+2025-03-08 03:11:11,390 | Using device: cuda
+2025-03-08 03:11:11,390 | Initializing Transformer model...
+2025-03-08 03:11:11,653 | Total parameters: 10,183,626
+2025-03-08 03:11:11,653 | Trainable parameters: 10,183,626
+2025-03-08 03:11:11,653 | === Starting Training ===
+2025-03-08 03:11:40,892 | Epoch: 1/1 | Batch: 100/384 (26.0%) | Loss: 9.6630 | Avg Loss: 10.3349 | Batch Time: 0.01s
+2025-03-08 03:11:42,265 | Epoch: 1/1 | Batch: 200/384 (52.1%) | Loss: 8.7843 | Avg Loss: 9.7774 | Batch Time: 0.01s
+2025-03-08 03:11:43,632 | Epoch: 1/1 | Batch: 300/384 (78.1%) | Loss: 8.0603 | Avg Loss: 9.3335 | Batch Time: 0.01s
+2025-03-08 03:11:44,871 | Epoch 1/1 completed | Avg Loss: 9.0044 | Time: 14.65s
+2025-03-08 03:11:44,871 | Training completed in 14.65s
+2025-03-08 03:11:44,872 | Done!
