@@ -134,10 +134,10 @@ def main():
 
     # Log all hyperparameters
     seq_length = 100
-    d_model = 128
+    d_model = 64
     num_layers = 6
-    num_heads = 8
-    d_ff = 512
+    num_heads = 4
+    d_ff = 256
     dropout = 0.1
     max_skip_prob = 0.5 if args.layerskip else 0.0
 
