@@ -144,6 +144,12 @@ class TransformerModel(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.fc_out = nn.Linear(d_model, vocab_size)
         self.max_skip_prob = max_skip_prob
+        self.max_seq_length = max_seq_length
+        self.d_model = d_model
+        self.num_layers = num_layers
+        self.num_heads = num_heads
+        self.d_ff = d_ff
+        self.dropout = dropout
 
     def forward(self, src, src_mask=None):
         x = self.embedding(src) * math.sqrt(self.embedding.embedding_dim)

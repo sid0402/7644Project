@@ -32,7 +32,7 @@ def load_model_from_checkpoint(checkpoint_path, device):
         num_layers=config['num_layers'],
         num_heads=config['num_heads'],
         d_ff=config['d_ff'],
-        max_seq_length=100,
+        max_seq_length=config['seq_length'],
         dropout=config['dropout'],
         max_skip_prob=0.0  # No layer skipping during inference
     ).to(device)

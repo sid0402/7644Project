@@ -112,6 +112,8 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
                 'd_ff': model.encoder.layers[0].feed_forward.linear1.out_features,
                 'num_layers': len(model.encoder.layers),
                 'dropout': model.dropout.p,
+                'max_skip_prob': model.max_skip_prob,
+                'seq_length': model.max_seq_length
             }
         }
         checkpoint_path = (
