@@ -39,6 +39,9 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
     os.makedirs('checkpoints', exist_ok=True)
     
     best_val_loss = float('inf')
+    best_model_state = None
+    best_optimizer_state = None
+    best_epoch = 0
     total_steps = len(train_loader)
     start_time = time.time()
     
@@ -80,26 +83,13 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
         # Validation phase
         val_loss = evaluate_model(model, val_loader, vocab_size, device)
         
-        # Save checkpoint if validation loss improved
+        # Keep track of best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            checkpoint = {
-                'epoch': epoch + 1,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optimizer.state_dict(),
-                'train_loss': avg_train_loss,
-                'val_loss': val_loss,
-                'config': {
-                    'd_model': model.encoder.layers[0].self_attn.d_model,
-                    'num_heads': model.encoder.layers[0].self_attn.num_heads,
-                    'd_ff': model.encoder.layers[0].feed_forward.linear1.out_features,
-                    'num_layers': len(model.encoder.layers),
-                    'dropout': model.dropout.p,
-                }
-            }
-            checkpoint_path = f'checkpoints/model_epoch{epoch+1}_valloss{val_loss:.4f}.pt'
-            torch.save(checkpoint, checkpoint_path)
-            logging.info(f"Saved checkpoint to {checkpoint_path}")
+            best_model_state = model.state_dict().copy()
+            best_optimizer_state = optimizer.state_dict().copy()
+            best_epoch = epoch + 1
+            logging.info(f"New best model found with validation loss: {val_loss:.4f}")
         
         epoch_time = time.time() - epoch_start_time
         logging.info(
@@ -108,6 +98,35 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
             f"Val Loss: {val_loss:.4f} | "
             f"Time: {epoch_time:.2f}s"
         )
+    
+    # Save only the best model at the end of training
+    if best_model_state is not None:
+        checkpoint = {
+            'epoch': best_epoch,
+            'model_state_dict': best_model_state,
+            'optimizer_state_dict': best_optimizer_state,
+            'val_loss': best_val_loss,
+            'config': {
+                'd_model': model.encoder.layers[0].self_attn.d_model,
+                'num_heads': model.encoder.layers[0].self_attn.num_heads,
+                'd_ff': model.encoder.layers[0].feed_forward.linear1.out_features,
+                'num_layers': len(model.encoder.layers),
+                'dropout': model.dropout.p,
+            }
+        }
+        checkpoint_path = (
+            f'checkpoints/best_model_'
+            f'd{model.encoder.layers[0].self_attn.d_model}_'
+            f'h{model.encoder.layers[0].self_attn.num_heads}_'
+            f'l{len(model.encoder.layers)}_'
+            f'ff{model.encoder.layers[0].feed_forward.linear1.out_features}_'
+            f'dp{model.dropout.p}_'
+            f'ls{int(model.max_skip_prob*100)}_'
+            f'e{best_epoch}_'
+            f'val{best_val_loss:.4f}.pt'
+        )
+        torch.save(checkpoint, checkpoint_path)
+        logging.info(f"Saved best model to {checkpoint_path}")
     
     total_time = time.time() - start_time
     logging.info(f"Training completed in {total_time:.2f}s")
