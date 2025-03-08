@@ -1,7 +1,8 @@
 import torch
 import argparse
 import logging
-from transformer_model import TransformerModel, load_wikitext_data
+from transformer_model import TransformerModel, load_wikitext_data, build_vocab
+from datasets import load_dataset
 import os
 
 def setup_logging():
@@ -19,15 +20,21 @@ def load_model_from_checkpoint(checkpoint_path, device):
     logging.info(f"Loading checkpoint from {checkpoint_path}")
     checkpoint = torch.load(checkpoint_path, map_location=device)
     
+    # Get vocabulary size from dataset
+    dataset = load_dataset("wikitext", "wikitext-2-raw-v1")
+    vocab = build_vocab(dataset)
+    vocab_size = len(vocab)
+    
     config = checkpoint['config']
     model = TransformerModel(
-        vocab_size=config.get('vocab_size'),
+        vocab_size=vocab_size,  # Use vocab size from dataset
         d_model=config['d_model'],
         num_layers=config['num_layers'],
         num_heads=config['num_heads'],
         d_ff=config['d_ff'],
-        max_seq_length=100,  # default value
-        dropout=config['dropout']
+        max_seq_length=100,
+        dropout=config['dropout'],
+        max_skip_prob=0.0  # No layer skipping during inference
     ).to(device)
     
     model.load_state_dict(checkpoint['model_state_dict'])
@@ -37,7 +44,7 @@ def load_model_from_checkpoint(checkpoint_path, device):
     for k, v in config.items():
         logging.info(f"{k}: {v}")
     
-    return model
+    return model, vocab
 
 def generate_text(model, input_text, vocab, max_length=50, temperature=1.0, device='cpu'):
     """Generate text continuation from input prompt."""
@@ -89,12 +96,8 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logging.info(f"Using device: {device}")
     
-    # Load data to get vocabulary
-    logging.info("Loading vocabulary from WikiText-2...")
-    _, _, vocab_size = load_wikitext_data(100, 1)  # Minimal batch size just to get vocab
-    
-    # Load model
-    model = load_model_from_checkpoint(args.checkpoint, device)
+    # Load model and vocabulary
+    model, vocab = load_model_from_checkpoint(args.checkpoint, device)
     
     # Generate text
     logging.info(f"\nPrompt: {args.prompt}")
