@@ -1,0 +1,51 @@
+2025-03-08 03:54:30,932 | Logging to: logs/transformer_train_eval_20250308_035430.log
+2025-03-08 03:54:30,932 | === Configuration ===
+2025-03-08 03:54:30,932 | Sequence length: 100
+2025-03-08 03:54:30,932 | Batch size: 32
+2025-03-08 03:54:30,933 | Learning rate: 0.001
+2025-03-08 03:54:30,933 | Epochs: 30
+2025-03-08 03:54:30,933 | Model dimension: 128
+2025-03-08 03:54:30,933 | Number of layers: 6
+2025-03-08 03:54:30,933 | Number of heads: 8
+2025-03-08 03:54:30,933 | Feed-forward dim: 512
+2025-03-08 03:54:30,933 | Dropout: 0.1
+2025-03-08 03:54:30,933 | Layer skip probability: 0.0
+2025-03-08 03:54:30,933 | Layer dropout: disabled
+2025-03-08 03:54:30,933 | Loading WikiText-2 dataset...
+2025-03-08 03:54:35,365 | Vocabulary size: 76618
+2025-03-08 03:54:35,516 | Using device: cuda
+2025-03-08 03:54:35,516 | Initializing Transformer model...
+2025-03-08 03:54:36,566 | === Starting Training ===
+2025-03-08 03:54:38,704 | Epoch: 1/30 | Batch: 100/384 (26.0%) | Loss: 3.4101 | Avg Loss: 5.5734 | Batch Time: 0.02s
+2025-03-08 03:54:40,397 | Epoch: 1/30 | Batch: 200/384 (52.1%) | Loss: 2.1046 | Avg Loss: 4.1256 | Batch Time: 0.02s
+2025-03-08 03:54:42,090 | Epoch: 1/30 | Batch: 300/384 (78.1%) | Loss: 1.4680 | Avg Loss: 3.3343 | Batch Time: 0.02s
+2025-03-08 03:54:44,317 | Saved checkpoint to checkpoints/model_epoch1_valloss1.2137.pt
+2025-03-08 03:54:44,318 | Epoch 1/30 completed | Train Loss: 2.8900 | Val Loss: 1.2137 | Time: 7.75s
+2025-03-08 03:54:46,013 | Epoch: 2/30 | Batch: 100/384 (26.0%) | Loss: 0.8862 | Avg Loss: 0.9225 | Batch Time: 0.02s
+2025-03-08 03:54:47,706 | Epoch: 2/30 | Batch: 200/384 (52.1%) | Loss: 0.6720 | Avg Loss: 0.8430 | Batch Time: 0.02s
+2025-03-08 03:54:49,399 | Epoch: 2/30 | Batch: 300/384 (78.1%) | Loss: 0.5421 | Avg Loss: 0.7726 | Batch Time: 0.02s
+2025-03-08 03:54:51,973 | Saved checkpoint to checkpoints/model_epoch2_valloss0.7522.pt
+2025-03-08 03:54:51,973 | Epoch 2/30 completed | Train Loss: 0.7253 | Val Loss: 0.7522 | Time: 7.65s
+2025-03-08 03:54:53,667 | Epoch: 3/30 | Batch: 100/384 (26.0%) | Loss: 0.3073 | Avg Loss: 0.3745 | Batch Time: 0.02s
+2025-03-08 03:54:55,368 | Epoch: 3/30 | Batch: 200/384 (52.1%) | Loss: 0.3305 | Avg Loss: 0.3577 | Batch Time: 0.02s
+2025-03-08 03:54:57,061 | Epoch: 3/30 | Batch: 300/384 (78.1%) | Loss: 0.2835 | Avg Loss: 0.3406 | Batch Time: 0.02s
+2025-03-08 03:54:59,328 | Saved checkpoint to checkpoints/model_epoch3_valloss0.6003.pt
+2025-03-08 03:54:59,329 | Epoch 3/30 completed | Train Loss: 0.3279 | Val Loss: 0.6003 | Time: 7.36s
+2025-03-08 03:55:01,022 | Epoch: 4/30 | Batch: 100/384 (26.0%) | Loss: 0.1594 | Avg Loss: 0.1730 | Batch Time: 0.02s
+2025-03-08 03:55:02,714 | Epoch: 4/30 | Batch: 200/384 (52.1%) | Loss: 0.1752 | Avg Loss: 0.1690 | Batch Time: 0.02s
+2025-03-08 03:55:04,407 | Epoch: 4/30 | Batch: 300/384 (78.1%) | Loss: 0.1593 | Avg Loss: 0.1632 | Batch Time: 0.02s
+2025-03-08 03:55:06,629 | Saved checkpoint to checkpoints/model_epoch4_valloss0.5437.pt
+2025-03-08 03:55:06,629 | Epoch 4/30 completed | Train Loss: 0.1586 | Val Loss: 0.5437 | Time: 7.30s
+2025-03-08 03:55:08,323 | Epoch: 5/30 | Batch: 100/384 (26.0%) | Loss: 0.0781 | Avg Loss: 0.0717 | Batch Time: 0.02s
+2025-03-08 03:55:10,015 | Epoch: 5/30 | Batch: 200/384 (52.1%) | Loss: 0.0704 | Avg Loss: 0.0697 | Batch Time: 0.02s
+2025-03-08 03:55:11,707 | Epoch: 5/30 | Batch: 300/384 (78.1%) | Loss: 0.0536 | Avg Loss: 0.0694 | Batch Time: 0.02s
+2025-03-08 03:55:13,881 | Saved checkpoint to checkpoints/model_epoch5_valloss0.5300.pt
+2025-03-08 03:55:13,881 | Epoch 5/30 completed | Train Loss: 0.0691 | Val Loss: 0.5300 | Time: 7.25s
+2025-03-08 03:55:15,575 | Epoch: 6/30 | Batch: 100/384 (26.0%) | Loss: 0.0129 | Avg Loss: 0.0184 | Batch Time: 0.02s
+2025-03-08 03:55:17,268 | Epoch: 6/30 | Batch: 200/384 (52.1%) | Loss: 0.0146 | Avg Loss: 0.0178 | Batch Time: 0.02s
+2025-03-08 03:55:18,960 | Epoch: 6/30 | Batch: 300/384 (78.1%) | Loss: 0.0145 | Avg Loss: 0.0176 | Batch Time: 0.02s
+2025-03-08 03:55:20,621 | Epoch 6/30 completed | Train Loss: 0.0175 | Val Loss: 0.5311 | Time: 6.74s
+2025-03-08 03:55:22,313 | Epoch: 7/30 | Batch: 100/384 (26.0%) | Loss: 0.0039 | Avg Loss: 0.0052 | Batch Time: 0.02s
+2025-03-08 03:55:24,005 | Epoch: 7/30 | Batch: 200/384 (52.1%) | Loss: 0.0056 | Avg Loss: 0.0050 | Batch Time: 0.02s
+2025-03-08 03:55:25,704 | Epoch: 7/30 | Batch: 300/384 (78.1%) | Loss: 0.0048 | Avg Loss: 0.0050 | Batch Time: 0.02s
+2025-03-08 03:55:27,364 | Epoch 7/30 completed | Train Loss: 0.0049 | Val Loss: 0.5400 | Time: 6.74s

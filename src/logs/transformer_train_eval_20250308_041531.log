@@ -1,0 +1,72 @@
+2025-03-08 04:15:31,645 | Logging to: logs/transformer_train_eval_20250308_041531.log
+2025-03-08 04:15:31,645 | === Configuration ===
+2025-03-08 04:15:31,645 | Sequence length: 100
+2025-03-08 04:15:31,645 | Batch size: 32
+2025-03-08 04:15:31,645 | Learning rate: 0.0001
+2025-03-08 04:15:31,646 | Epochs: 10
+2025-03-08 04:15:31,646 | Model dimension: 128
+2025-03-08 04:15:31,646 | Number of layers: 6
+2025-03-08 04:15:31,646 | Number of heads: 8
+2025-03-08 04:15:31,646 | Feed-forward dim: 512
+2025-03-08 04:15:31,646 | Dropout: 0.1
+2025-03-08 04:15:31,646 | Layer skip probability: 0.5
+2025-03-08 04:15:31,646 | Layer dropout: enabled
+2025-03-08 04:15:31,646 | Loading WikiText-2 dataset...
+2025-03-08 04:15:36,264 | Vocabulary size: 76618
+2025-03-08 04:15:36,415 | Using device: cuda
+2025-03-08 04:15:36,415 | Initializing Transformer model...
+2025-03-08 04:15:37,462 | === Starting Training ===
+2025-03-08 04:15:39,973 | Epoch: 1/10 | Batch: 100/384 (26.0%) | Loss: 8.7150 | Avg Loss: 9.8795 | Batch Time: 0.02s
+2025-03-08 04:15:41,581 | Epoch: 1/10 | Batch: 200/384 (52.1%) | Loss: 7.3722 | Avg Loss: 9.0072 | Batch Time: 0.02s
+2025-03-08 04:15:43,180 | Epoch: 1/10 | Batch: 300/384 (78.1%) | Loss: 7.1999 | Avg Loss: 8.3567 | Batch Time: 0.01s
+2025-03-08 04:15:44,762 | New best model found with validation loss: 5.7567
+2025-03-08 04:15:44,763 | Epoch 1/10 completed | Train Loss: 7.8930 | Val Loss: 5.7567 | Time: 7.29s
+2025-03-08 04:15:46,368 | Epoch: 2/10 | Batch: 100/384 (26.0%) | Loss: 5.4732 | Avg Loss: 5.6313 | Batch Time: 0.02s
+2025-03-08 04:15:47,964 | Epoch: 2/10 | Batch: 200/384 (52.1%) | Loss: 5.0588 | Avg Loss: 5.3999 | Batch Time: 0.02s
+2025-03-08 04:15:49,559 | Epoch: 2/10 | Batch: 300/384 (78.1%) | Loss: 4.7084 | Avg Loss: 5.2017 | Batch Time: 0.02s
+2025-03-08 04:15:51,137 | New best model found with validation loss: 4.2754
+2025-03-08 04:15:51,138 | Epoch 2/10 completed | Train Loss: 5.0464 | Val Loss: 4.2754 | Time: 6.37s
+2025-03-08 04:15:52,742 | Epoch: 3/10 | Batch: 100/384 (26.0%) | Loss: 4.0389 | Avg Loss: 4.1938 | Batch Time: 0.02s
+2025-03-08 04:15:54,335 | Epoch: 3/10 | Batch: 200/384 (52.1%) | Loss: 3.9717 | Avg Loss: 4.0974 | Batch Time: 0.02s
+2025-03-08 04:15:55,935 | Epoch: 3/10 | Batch: 300/384 (78.1%) | Loss: 3.4889 | Avg Loss: 3.9876 | Batch Time: 0.02s
+2025-03-08 04:15:57,510 | New best model found with validation loss: 3.4142
+2025-03-08 04:15:57,510 | Epoch 3/10 completed | Train Loss: 3.9100 | Val Loss: 3.4142 | Time: 6.37s
+2025-03-08 04:15:59,116 | Epoch: 4/10 | Batch: 100/384 (26.0%) | Loss: 3.2822 | Avg Loss: 3.3601 | Batch Time: 0.02s
+2025-03-08 04:16:00,716 | Epoch: 4/10 | Batch: 200/384 (52.1%) | Loss: 2.9847 | Avg Loss: 3.2877 | Batch Time: 0.02s
+2025-03-08 04:16:02,316 | Epoch: 4/10 | Batch: 300/384 (78.1%) | Loss: 2.9446 | Avg Loss: 3.2146 | Batch Time: 0.02s
+2025-03-08 04:16:03,894 | New best model found with validation loss: 2.8159
+2025-03-08 04:16:03,894 | Epoch 4/10 completed | Train Loss: 3.1586 | Val Loss: 2.8159 | Time: 6.38s
+2025-03-08 04:16:05,488 | Epoch: 5/10 | Batch: 100/384 (26.0%) | Loss: 2.7810 | Avg Loss: 2.7732 | Batch Time: 0.02s
+2025-03-08 04:16:07,072 | Epoch: 5/10 | Batch: 200/384 (52.1%) | Loss: 2.4779 | Avg Loss: 2.7458 | Batch Time: 0.02s
+2025-03-08 04:16:08,660 | Epoch: 5/10 | Batch: 300/384 (78.1%) | Loss: 2.5029 | Avg Loss: 2.6914 | Batch Time: 0.02s
+2025-03-08 04:16:10,232 | New best model found with validation loss: 2.3860
+2025-03-08 04:16:10,232 | Epoch 5/10 completed | Train Loss: 2.6409 | Val Loss: 2.3860 | Time: 6.34s
+2025-03-08 04:16:11,835 | Epoch: 6/10 | Batch: 100/384 (26.0%) | Loss: 2.3930 | Avg Loss: 2.3400 | Batch Time: 0.02s
+2025-03-08 04:16:13,441 | Epoch: 6/10 | Batch: 200/384 (52.1%) | Loss: 2.0555 | Avg Loss: 2.2845 | Batch Time: 0.02s
+2025-03-08 04:16:15,034 | Epoch: 6/10 | Batch: 300/384 (78.1%) | Loss: 2.2059 | Avg Loss: 2.2378 | Batch Time: 0.02s
+2025-03-08 04:16:16,613 | New best model found with validation loss: 2.0585
+2025-03-08 04:16:16,613 | Epoch 6/10 completed | Train Loss: 2.2032 | Val Loss: 2.0585 | Time: 6.38s
+2025-03-08 04:16:18,203 | Epoch: 7/10 | Batch: 100/384 (26.0%) | Loss: 2.0365 | Avg Loss: 1.9991 | Batch Time: 0.02s
+2025-03-08 04:16:19,799 | Epoch: 7/10 | Batch: 200/384 (52.1%) | Loss: 2.0137 | Avg Loss: 1.9596 | Batch Time: 0.02s
+2025-03-08 04:16:21,401 | Epoch: 7/10 | Batch: 300/384 (78.1%) | Loss: 2.0185 | Avg Loss: 1.9156 | Batch Time: 0.02s
+2025-03-08 04:16:22,974 | New best model found with validation loss: 1.8196
+2025-03-08 04:16:22,974 | Epoch 7/10 completed | Train Loss: 1.8947 | Val Loss: 1.8196 | Time: 6.36s
+2025-03-08 04:16:24,572 | Epoch: 8/10 | Batch: 100/384 (26.0%) | Loss: 1.4884 | Avg Loss: 1.7125 | Batch Time: 0.02s
+2025-03-08 04:16:26,165 | Epoch: 8/10 | Batch: 200/384 (52.1%) | Loss: 1.4912 | Avg Loss: 1.7021 | Batch Time: 0.02s
+2025-03-08 04:16:27,759 | Epoch: 8/10 | Batch: 300/384 (78.1%) | Loss: 1.6887 | Avg Loss: 1.6734 | Batch Time: 0.02s
+2025-03-08 04:16:29,325 | New best model found with validation loss: 1.6371
+2025-03-08 04:16:29,326 | Epoch 8/10 completed | Train Loss: 1.6552 | Val Loss: 1.6371 | Time: 6.35s
+2025-03-08 04:16:30,920 | Epoch: 9/10 | Batch: 100/384 (26.0%) | Loss: 1.3971 | Avg Loss: 1.4808 | Batch Time: 0.02s
+2025-03-08 04:16:32,524 | Epoch: 9/10 | Batch: 200/384 (52.1%) | Loss: 1.3274 | Avg Loss: 1.4483 | Batch Time: 0.02s
+2025-03-08 04:16:34,115 | Epoch: 9/10 | Batch: 300/384 (78.1%) | Loss: 1.5147 | Avg Loss: 1.4401 | Batch Time: 0.02s
+2025-03-08 04:16:35,697 | New best model found with validation loss: 1.4813
+2025-03-08 04:16:35,697 | Epoch 9/10 completed | Train Loss: 1.4243 | Val Loss: 1.4813 | Time: 6.37s
+2025-03-08 04:16:37,291 | Epoch: 10/10 | Batch: 100/384 (26.0%) | Loss: 1.1656 | Avg Loss: 1.3070 | Batch Time: 0.02s
+2025-03-08 04:16:38,889 | Epoch: 10/10 | Batch: 200/384 (52.1%) | Loss: 1.3190 | Avg Loss: 1.3091 | Batch Time: 0.02s
+2025-03-08 04:16:40,482 | Epoch: 10/10 | Batch: 300/384 (78.1%) | Loss: 1.4919 | Avg Loss: 1.2807 | Batch Time: 0.01s
+2025-03-08 04:16:42,073 | New best model found with validation loss: 1.3695
+2025-03-08 04:16:42,073 | Epoch 10/10 completed | Train Loss: 1.2715 | Val Loss: 1.3695 | Time: 6.38s
+2025-03-08 04:16:42,787 | Saved best model to checkpoints/best_model_d128_h8_l6_ff512_dp0.1_ls50_e10_val1.3695.pt
+2025-03-08 04:16:42,787 | Training completed in 65.32s
+2025-03-08 04:16:43,035 | Final validation loss: 1.3695
+2025-03-08 04:16:43,036 | Done!

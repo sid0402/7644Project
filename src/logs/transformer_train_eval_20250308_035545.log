@@ -1,0 +1,121 @@
+2025-03-08 03:55:45,485 | Logging to: logs/transformer_train_eval_20250308_035545.log
+2025-03-08 03:55:45,485 | === Configuration ===
+2025-03-08 03:55:45,485 | Sequence length: 100
+2025-03-08 03:55:45,485 | Batch size: 32
+2025-03-08 03:55:45,485 | Learning rate: 0.0001
+2025-03-08 03:55:45,485 | Epochs: 20
+2025-03-08 03:55:45,485 | Model dimension: 128
+2025-03-08 03:55:45,485 | Number of layers: 6
+2025-03-08 03:55:45,485 | Number of heads: 8
+2025-03-08 03:55:45,485 | Feed-forward dim: 512
+2025-03-08 03:55:45,485 | Dropout: 0.1
+2025-03-08 03:55:45,485 | Layer skip probability: 0.0
+2025-03-08 03:55:45,486 | Layer dropout: disabled
+2025-03-08 03:55:45,486 | Loading WikiText-2 dataset...
+2025-03-08 03:55:49,790 | Vocabulary size: 76618
+2025-03-08 03:55:49,950 | Using device: cuda
+2025-03-08 03:55:49,950 | Initializing Transformer model...
+2025-03-08 03:55:50,982 | === Starting Training ===
+2025-03-08 03:55:52,831 | Epoch: 1/20 | Batch: 100/384 (26.0%) | Loss: 8.3023 | Avg Loss: 9.4115 | Batch Time: 0.02s
+2025-03-08 03:55:54,528 | Epoch: 1/20 | Batch: 200/384 (52.1%) | Loss: 6.7968 | Avg Loss: 8.4838 | Batch Time: 0.02s
+2025-03-08 03:55:56,229 | Epoch: 1/20 | Batch: 300/384 (78.1%) | Loss: 5.9983 | Avg Loss: 7.7752 | Batch Time: 0.02s
+2025-03-08 03:55:58,602 | Saved checkpoint to checkpoints/model_epoch1_valloss5.1527.pt
+2025-03-08 03:55:58,602 | Epoch 1/20 completed | Train Loss: 7.2863 | Val Loss: 5.1527 | Time: 7.62s
+2025-03-08 03:56:00,292 | Epoch: 2/20 | Batch: 100/384 (26.0%) | Loss: 4.5528 | Avg Loss: 4.9258 | Batch Time: 0.02s
+2025-03-08 03:56:01,981 | Epoch: 2/20 | Batch: 200/384 (52.1%) | Loss: 4.3241 | Avg Loss: 4.6943 | Batch Time: 0.02s
+2025-03-08 03:56:03,669 | Epoch: 2/20 | Batch: 300/384 (78.1%) | Loss: 4.0331 | Avg Loss: 4.5006 | Batch Time: 0.02s
+2025-03-08 03:56:05,938 | Saved checkpoint to checkpoints/model_epoch2_valloss3.6828.pt
+2025-03-08 03:56:05,938 | Epoch 2/20 completed | Train Loss: 4.3551 | Val Loss: 3.6828 | Time: 7.34s
+2025-03-08 03:56:07,628 | Epoch: 3/20 | Batch: 100/384 (26.0%) | Loss: 3.4890 | Avg Loss: 3.5883 | Batch Time: 0.02s
+2025-03-08 03:56:09,316 | Epoch: 3/20 | Batch: 200/384 (52.1%) | Loss: 3.2983 | Avg Loss: 3.4712 | Batch Time: 0.02s
+2025-03-08 03:56:11,003 | Epoch: 3/20 | Batch: 300/384 (78.1%) | Loss: 2.9558 | Avg Loss: 3.3603 | Batch Time: 0.02s
+2025-03-08 03:56:13,233 | Saved checkpoint to checkpoints/model_epoch3_valloss2.8741.pt
+2025-03-08 03:56:13,234 | Epoch 3/20 completed | Train Loss: 3.2733 | Val Loss: 2.8741 | Time: 7.30s
+2025-03-08 03:56:14,923 | Epoch: 4/20 | Batch: 100/384 (26.0%) | Loss: 2.7531 | Avg Loss: 2.7999 | Batch Time: 0.02s
+2025-03-08 03:56:16,610 | Epoch: 4/20 | Batch: 200/384 (52.1%) | Loss: 2.5371 | Avg Loss: 2.7311 | Batch Time: 0.02s
+2025-03-08 03:56:18,298 | Epoch: 4/20 | Batch: 300/384 (78.1%) | Loss: 2.5287 | Avg Loss: 2.6539 | Batch Time: 0.02s
+2025-03-08 03:56:20,494 | Saved checkpoint to checkpoints/model_epoch4_valloss2.3430.pt
+2025-03-08 03:56:20,494 | Epoch 4/20 completed | Train Loss: 2.5956 | Val Loss: 2.3430 | Time: 7.26s
+2025-03-08 03:56:22,183 | Epoch: 5/20 | Batch: 100/384 (26.0%) | Loss: 2.1835 | Avg Loss: 2.2546 | Batch Time: 0.02s
+2025-03-08 03:56:23,871 | Epoch: 5/20 | Batch: 200/384 (52.1%) | Loss: 2.0248 | Avg Loss: 2.2038 | Batch Time: 0.02s
+2025-03-08 03:56:25,568 | Epoch: 5/20 | Batch: 300/384 (78.1%) | Loss: 1.9969 | Avg Loss: 2.1529 | Batch Time: 0.02s
+2025-03-08 03:56:28,209 | Saved checkpoint to checkpoints/model_epoch5_valloss1.9794.pt
+2025-03-08 03:56:28,209 | Epoch 5/20 completed | Train Loss: 2.1152 | Val Loss: 1.9794 | Time: 7.71s
+2025-03-08 03:56:29,898 | Epoch: 6/20 | Batch: 100/384 (26.0%) | Loss: 1.6975 | Avg Loss: 1.8642 | Batch Time: 0.02s
+2025-03-08 03:56:31,585 | Epoch: 6/20 | Batch: 200/384 (52.1%) | Loss: 1.8378 | Avg Loss: 1.8370 | Batch Time: 0.02s
+2025-03-08 03:56:33,272 | Epoch: 6/20 | Batch: 300/384 (78.1%) | Loss: 1.7210 | Avg Loss: 1.7927 | Batch Time: 0.02s
+2025-03-08 03:56:35,640 | Saved checkpoint to checkpoints/model_epoch6_valloss1.7164.pt
+2025-03-08 03:56:35,640 | Epoch 6/20 completed | Train Loss: 1.7587 | Val Loss: 1.7164 | Time: 7.43s
+2025-03-08 03:56:37,329 | Epoch: 7/20 | Batch: 100/384 (26.0%) | Loss: 1.5664 | Avg Loss: 1.5728 | Batch Time: 0.02s
+2025-03-08 03:56:39,016 | Epoch: 7/20 | Batch: 200/384 (52.1%) | Loss: 1.5054 | Avg Loss: 1.5422 | Batch Time: 0.02s
+2025-03-08 03:56:40,703 | Epoch: 7/20 | Batch: 300/384 (78.1%) | Loss: 1.3824 | Avg Loss: 1.5077 | Batch Time: 0.02s
+2025-03-08 03:56:43,140 | Saved checkpoint to checkpoints/model_epoch7_valloss1.5223.pt
+2025-03-08 03:56:43,140 | Epoch 7/20 completed | Train Loss: 1.4844 | Val Loss: 1.5223 | Time: 7.50s
+2025-03-08 03:56:44,829 | Epoch: 8/20 | Batch: 100/384 (26.0%) | Loss: 1.2997 | Avg Loss: 1.3304 | Batch Time: 0.02s
+2025-03-08 03:56:46,516 | Epoch: 8/20 | Batch: 200/384 (52.1%) | Loss: 1.2629 | Avg Loss: 1.3132 | Batch Time: 0.02s
+2025-03-08 03:56:48,203 | Epoch: 8/20 | Batch: 300/384 (78.1%) | Loss: 1.2235 | Avg Loss: 1.2888 | Batch Time: 0.02s
+2025-03-08 03:56:50,415 | Saved checkpoint to checkpoints/model_epoch8_valloss1.3752.pt
+2025-03-08 03:56:50,415 | Epoch 8/20 completed | Train Loss: 1.2696 | Val Loss: 1.3752 | Time: 7.27s
+2025-03-08 03:56:52,104 | Epoch: 9/20 | Batch: 100/384 (26.0%) | Loss: 1.0362 | Avg Loss: 1.1406 | Batch Time: 0.02s
+2025-03-08 03:56:53,792 | Epoch: 9/20 | Batch: 200/384 (52.1%) | Loss: 1.0991 | Avg Loss: 1.1222 | Batch Time: 0.02s
+2025-03-08 03:56:55,506 | Epoch: 9/20 | Batch: 300/384 (78.1%) | Loss: 0.9581 | Avg Loss: 1.1069 | Batch Time: 0.02s
+2025-03-08 03:56:57,749 | Saved checkpoint to checkpoints/model_epoch9_valloss1.2478.pt
+2025-03-08 03:56:57,749 | Epoch 9/20 completed | Train Loss: 1.0966 | Val Loss: 1.2478 | Time: 7.33s
+2025-03-08 03:56:59,438 | Epoch: 10/20 | Batch: 100/384 (26.0%) | Loss: 1.1593 | Avg Loss: 0.9941 | Batch Time: 0.02s
+2025-03-08 03:57:01,126 | Epoch: 10/20 | Batch: 200/384 (52.1%) | Loss: 0.9746 | Avg Loss: 0.9791 | Batch Time: 0.02s
+2025-03-08 03:57:02,813 | Epoch: 10/20 | Batch: 300/384 (78.1%) | Loss: 0.8847 | Avg Loss: 0.9644 | Batch Time: 0.02s
+2025-03-08 03:57:05,346 | Saved checkpoint to checkpoints/model_epoch10_valloss1.1519.pt
+2025-03-08 03:57:05,347 | Epoch 10/20 completed | Train Loss: 0.9544 | Val Loss: 1.1519 | Time: 7.60s
+2025-03-08 03:57:07,036 | Epoch: 11/20 | Batch: 100/384 (26.0%) | Loss: 0.8670 | Avg Loss: 0.8791 | Batch Time: 0.02s
+2025-03-08 03:57:08,723 | Epoch: 11/20 | Batch: 200/384 (52.1%) | Loss: 0.8207 | Avg Loss: 0.8580 | Batch Time: 0.02s
+2025-03-08 03:57:10,409 | Epoch: 11/20 | Batch: 300/384 (78.1%) | Loss: 0.7716 | Avg Loss: 0.8478 | Batch Time: 0.02s
+2025-03-08 03:57:12,591 | Saved checkpoint to checkpoints/model_epoch11_valloss1.0749.pt
+2025-03-08 03:57:12,592 | Epoch 11/20 completed | Train Loss: 0.8362 | Val Loss: 1.0749 | Time: 7.24s
+2025-03-08 03:57:14,280 | Epoch: 12/20 | Batch: 100/384 (26.0%) | Loss: 0.8770 | Avg Loss: 0.7564 | Batch Time: 0.02s
+2025-03-08 03:57:15,967 | Epoch: 12/20 | Batch: 200/384 (52.1%) | Loss: 0.6773 | Avg Loss: 0.7550 | Batch Time: 0.02s
+2025-03-08 03:57:17,653 | Epoch: 12/20 | Batch: 300/384 (78.1%) | Loss: 0.7635 | Avg Loss: 0.7461 | Batch Time: 0.02s
+2025-03-08 03:57:19,887 | Saved checkpoint to checkpoints/model_epoch12_valloss1.0118.pt
+2025-03-08 03:57:19,887 | Epoch 12/20 completed | Train Loss: 0.7374 | Val Loss: 1.0118 | Time: 7.30s
+2025-03-08 03:57:21,576 | Epoch: 13/20 | Batch: 100/384 (26.0%) | Loss: 0.6744 | Avg Loss: 0.6799 | Batch Time: 0.02s
+2025-03-08 03:57:23,264 | Epoch: 13/20 | Batch: 200/384 (52.1%) | Loss: 0.7055 | Avg Loss: 0.6695 | Batch Time: 0.02s
+2025-03-08 03:57:24,958 | Epoch: 13/20 | Batch: 300/384 (78.1%) | Loss: 0.5332 | Avg Loss: 0.6590 | Batch Time: 0.02s
+2025-03-08 03:57:27,371 | Saved checkpoint to checkpoints/model_epoch13_valloss0.9578.pt
+2025-03-08 03:57:27,372 | Epoch 13/20 completed | Train Loss: 0.6517 | Val Loss: 0.9578 | Time: 7.48s
+2025-03-08 03:57:29,061 | Epoch: 14/20 | Batch: 100/384 (26.0%) | Loss: 0.5860 | Avg Loss: 0.6092 | Batch Time: 0.02s
+2025-03-08 03:57:30,748 | Epoch: 14/20 | Batch: 200/384 (52.1%) | Loss: 0.4723 | Avg Loss: 0.5944 | Batch Time: 0.02s
+2025-03-08 03:57:32,435 | Epoch: 14/20 | Batch: 300/384 (78.1%) | Loss: 0.5502 | Avg Loss: 0.5839 | Batch Time: 0.02s
+2025-03-08 03:57:35,086 | Saved checkpoint to checkpoints/model_epoch14_valloss0.9104.pt
+2025-03-08 03:57:35,086 | Epoch 14/20 completed | Train Loss: 0.5775 | Val Loss: 0.9104 | Time: 7.71s
+2025-03-08 03:57:36,775 | Epoch: 15/20 | Batch: 100/384 (26.0%) | Loss: 0.4815 | Avg Loss: 0.5331 | Batch Time: 0.02s
+2025-03-08 03:57:38,462 | Epoch: 15/20 | Batch: 200/384 (52.1%) | Loss: 0.5086 | Avg Loss: 0.5265 | Batch Time: 0.02s
+2025-03-08 03:57:40,149 | Epoch: 15/20 | Batch: 300/384 (78.1%) | Loss: 0.5099 | Avg Loss: 0.5181 | Batch Time: 0.02s
+2025-03-08 03:57:42,379 | Saved checkpoint to checkpoints/model_epoch15_valloss0.8646.pt
+2025-03-08 03:57:42,379 | Epoch 15/20 completed | Train Loss: 0.5136 | Val Loss: 0.8646 | Time: 7.29s
+2025-03-08 03:57:44,068 | Epoch: 16/20 | Batch: 100/384 (26.0%) | Loss: 0.4318 | Avg Loss: 0.4707 | Batch Time: 0.02s
+2025-03-08 03:57:45,755 | Epoch: 16/20 | Batch: 200/384 (52.1%) | Loss: 0.4348 | Avg Loss: 0.4686 | Batch Time: 0.02s
+2025-03-08 03:57:47,442 | Epoch: 16/20 | Batch: 300/384 (78.1%) | Loss: 0.4113 | Avg Loss: 0.4616 | Batch Time: 0.02s
+2025-03-08 03:57:49,635 | Saved checkpoint to checkpoints/model_epoch16_valloss0.8307.pt
+2025-03-08 03:57:49,635 | Epoch 16/20 completed | Train Loss: 0.4573 | Val Loss: 0.8307 | Time: 7.26s
+2025-03-08 03:57:51,323 | Epoch: 17/20 | Batch: 100/384 (26.0%) | Loss: 0.3697 | Avg Loss: 0.4179 | Batch Time: 0.02s
+2025-03-08 03:57:53,011 | Epoch: 17/20 | Batch: 200/384 (52.1%) | Loss: 0.4116 | Avg Loss: 0.4141 | Batch Time: 0.02s
+2025-03-08 03:57:54,700 | Epoch: 17/20 | Batch: 300/384 (78.1%) | Loss: 0.3459 | Avg Loss: 0.4103 | Batch Time: 0.02s
+2025-03-08 03:57:57,561 | Saved checkpoint to checkpoints/model_epoch17_valloss0.8009.pt
+2025-03-08 03:57:57,561 | Epoch 17/20 completed | Train Loss: 0.4066 | Val Loss: 0.8009 | Time: 7.93s
+2025-03-08 03:57:59,250 | Epoch: 18/20 | Batch: 100/384 (26.0%) | Loss: 0.3139 | Avg Loss: 0.3692 | Batch Time: 0.02s
+2025-03-08 03:58:00,937 | Epoch: 18/20 | Batch: 200/384 (52.1%) | Loss: 0.3077 | Avg Loss: 0.3663 | Batch Time: 0.02s
+2025-03-08 03:58:02,624 | Epoch: 18/20 | Batch: 300/384 (78.1%) | Loss: 0.4329 | Avg Loss: 0.3635 | Batch Time: 0.02s
+2025-03-08 03:58:05,071 | Saved checkpoint to checkpoints/model_epoch18_valloss0.7727.pt
+2025-03-08 03:58:05,072 | Epoch 18/20 completed | Train Loss: 0.3621 | Val Loss: 0.7727 | Time: 7.51s
+2025-03-08 03:58:06,761 | Epoch: 19/20 | Batch: 100/384 (26.0%) | Loss: 0.2748 | Avg Loss: 0.3326 | Batch Time: 0.02s
+2025-03-08 03:58:08,449 | Epoch: 19/20 | Batch: 200/384 (52.1%) | Loss: 0.3315 | Avg Loss: 0.3286 | Batch Time: 0.02s
+2025-03-08 03:58:10,135 | Epoch: 19/20 | Batch: 300/384 (78.1%) | Loss: 0.3488 | Avg Loss: 0.3228 | Batch Time: 0.02s
+2025-03-08 03:58:12,342 | Saved checkpoint to checkpoints/model_epoch19_valloss0.7419.pt
+2025-03-08 03:58:12,342 | Epoch 19/20 completed | Train Loss: 0.3216 | Val Loss: 0.7419 | Time: 7.27s
+2025-03-08 03:58:14,031 | Epoch: 20/20 | Batch: 100/384 (26.0%) | Loss: 0.2910 | Avg Loss: 0.2898 | Batch Time: 0.02s
+2025-03-08 03:58:15,717 | Epoch: 20/20 | Batch: 200/384 (52.1%) | Loss: 0.3007 | Avg Loss: 0.2881 | Batch Time: 0.02s
+2025-03-08 03:58:17,404 | Epoch: 20/20 | Batch: 300/384 (78.1%) | Loss: 0.2809 | Avg Loss: 0.2859 | Batch Time: 0.02s
+2025-03-08 03:58:19,594 | Saved checkpoint to checkpoints/model_epoch20_valloss0.7294.pt
+2025-03-08 03:58:19,594 | Epoch 20/20 completed | Train Loss: 0.2859 | Val Loss: 0.7294 | Time: 7.25s
+2025-03-08 03:58:19,594 | Training completed in 148.61s
+2025-03-08 03:58:19,842 | Final validation loss: 0.7294
+2025-03-08 03:58:19,842 | Done!
