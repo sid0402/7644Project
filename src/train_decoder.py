@@ -46,7 +46,7 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
                 logging.info(f"Epoch [{epoch+1}/{epochs}] Batch [{batch_idx}] Loss: {loss.item():.4f}")
 
         avg_train_loss = epoch_loss / len(train_loader)
-        val_loss = evaluate_model(model, val_loader, vocab_size, device)
+        val_loss, val_layer_losses = evaluate_model(model, val_loader, vocab_size, device)
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
@@ -55,6 +55,8 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
             logging.info(f"New best model with val loss: {val_loss:.4f}")
 
         logging.info(f"Epoch {epoch+1} | Train Loss: {avg_train_loss:.4f} | Val Loss: {val_loss:.4f}")
+        for i, l in enumerate(val_layer_losses, 1):
+            logging.info(f"  └─ Layer {i} Val Loss: {l:.4f}")
 
     if best_model_state:
         checkpoint_path = (
@@ -74,15 +76,24 @@ def train_model(model, train_loader, val_loader, vocab_size, device, epochs=1, l
 
 def evaluate_model(model, val_loader, vocab_size, device):
     model.eval()
-    total_loss = 0.0
     criterion = nn.CrossEntropyLoss()
+    layer_losses = None
+    total_loss = 0.0
+
     with torch.no_grad():
         for x, y in val_loader:
             x, y = x.to(device), y.to(device)
-            output = model(x)
-            loss = criterion(output.view(-1, vocab_size), y.view(-1))
-            total_loss += loss.item()
-    return total_loss / len(val_loader)
+            logits_per_layer, losses_per_layer = model(x, targets=y, return_all=True)
+            total_loss += losses_per_layer[-1].item()
+
+            if layer_losses is None:
+                layer_losses = [0.0 for _ in losses_per_layer]
+            for i, loss in enumerate(losses_per_layer):
+                layer_losses[i] += loss.item()
+
+    avg_val_loss = total_loss / len(val_loader)
+    avg_layer_losses = [l / len(val_loader) for l in layer_losses]
+    return avg_val_loss, avg_layer_losses
 
 def main():
     parser = argparse.ArgumentParser()
@@ -90,7 +101,7 @@ def main():
     parser.add_argument("--eval", action="store_true")
     parser.add_argument("--checkpoint", type=str)
     parser.add_argument("--epochs", type=int, default=5)
-    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--seq_length", type=int, default=100)
     parser.add_argument("--d_model", type=int, default=128)
@@ -125,8 +136,10 @@ def main():
         train_model(model, train_loader, val_loader, vocab_size, device, args.epochs, args.lr)
 
     if args.eval:
-        val_loss = evaluate_model(model, val_loader, vocab_size, device)
+        val_loss, layer_losses = evaluate_model(model, val_loader, vocab_size, device)
         logging.info(f"Validation Loss: {val_loss:.4f}")
+        for i, l in enumerate(layer_losses, 1):
+            logging.info(f"  └─ Layer {i} Val Loss: {l:.4f}")
 
     logging.info("Done!")
 

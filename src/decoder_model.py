@@ -104,13 +104,29 @@ class DecoderOnlyTransformer(nn.Module):
         self.norm = nn.LayerNorm(d_model)
         self.fc_out = nn.Linear(d_model, vocab_size)
 
-    def forward(self, x):
+    def forward(self, x, targets=None, return_all=False):
         x = self.embedding(x) * math.sqrt(self.embedding.embedding_dim)
         x = self.pos_encoder(x)
+
+        all_logits = []
         for layer in self.layers:
             x = layer(x)
+            if return_all:
+                logits = self.fc_out(self.norm(x))  # intermediate prediction
+                all_logits.append(logits)
+
         x = self.norm(x)
-        return self.fc_out(x)
+        final_logits = self.fc_out(x)
+        all_logits.append(final_logits)  # append final output as well
+
+        if not return_all:
+            return final_logits
+
+        if targets is not None:
+            loss_fn = nn.CrossEntropyLoss()
+            all_losses = [loss_fn(logits.view(-1, logits.size(-1)), targets.view(-1)) for logits in all_logits]
+            return all_logits, all_losses
+        return all_logits
 
 # -------------------------------
 # Data Processing for WikiText-2

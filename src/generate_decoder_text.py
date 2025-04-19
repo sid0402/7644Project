@@ -49,7 +49,13 @@ def generate_text(model, input_text, vocab, max_length=50, temperature=1.0, devi
         for _ in range(max_length):
             curr_input = torch.tensor([generated[-100:]], dtype=torch.long).to(device)
             output = model(curr_input)
-            next_token_logits = output[0, -1, :] / temperature
+            
+            if isinstance(output, list):
+                logits = output[0]
+                next_token_logits = logits[0, -1, :] / temperature
+            else:
+                next_token_logits = output[0, -1, :] / temperature
+                
             probs = torch.softmax(next_token_logits, dim=-1)
             next_token = torch.multinomial(probs, num_samples=1).item()
             generated.append(next_token)
@@ -63,7 +69,7 @@ def generate_text(model, input_text, vocab, max_length=50, temperature=1.0, devi
 def main():
     parser = argparse.ArgumentParser(description="Generate text using Decoder-Only Transformer")
     parser.add_argument("--checkpoint", type=str, required=True, help="Path to model checkpoint")
-    parser.add_argument("--prompt", type=str, default="The Sinclair Scientific Programmable was introduced in 1975 , with the same case as the Sinclair Oxford.", help="Initial text prompt")
+    parser.add_argument("--prompt", type=str, default="Hello what is your name?", help="Initial text prompt")
     parser.add_argument("--max_length", type=int, default=100, help="Max length of generated text")
     parser.add_argument("--temperature", type=float, default=1.0, help="Sampling temperature")
     args = parser.parse_args()
