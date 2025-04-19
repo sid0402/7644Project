@@ -1,0 +1,40 @@
+pip install datasets transformers
+
+from datasets import load_dataset
+from transformers import AutoTokenizer
+import os
+
+def preprocess_wikitext2(tokenizer_name="gpt2", save_path="preprocessed_wikitext2"):
+    # Load dataset
+    dataset = load_dataset("wikitext", "wikitext-2-raw-v1")
+
+    # Load tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token  # Avoid padding issues
+
+    def clean_text(example):
+        # Simple cleaning: lowercasing, removing newlines, etc.
+        text = example["text"].lower().replace("\n", " ").strip()
+        return {"text": text}
+
+    def tokenize(example):
+        return tokenizer(example["text"], truncation=False)
+
+    # Apply cleaning
+    dataset = dataset.map(clean_text, batched=False)
+
+    # Remove empty lines (which are present in WikiText)
+    dataset = dataset.filter(lambda example: example["text"] != "")
+
+    # Tokenize
+    tokenized_dataset = dataset.map(tokenize, batched=True, remove_columns=["text"])
+
+    # Save tokenized data to disk if desired
+    os.makedirs(save_path, exist_ok=True)
+    tokenized_dataset.save_to_disk(save_path)
+
+    print(f"Preprocessed and tokenized WikiText-2 saved to: {save_path}")
+
+if _name_ == "_main_":
+    preprocess_wikitext2()
