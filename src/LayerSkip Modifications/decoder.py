@@ -107,13 +107,24 @@ class DecoderOnlyTransformer(nn.Module):
         self.norm = nn.LayerNorm(d_model)
         self.fc_out = nn.Linear(d_model, vocab_size)
 
-    def forward(self, x):
+    def forward(self, x, return_all=False):
         x = self.embedding(x) * math.sqrt(self.embedding.embedding_dim)
         x = self.pos_encoder(x)
-        for layer in self.layers:
-            x = layer(x)
-        x = self.norm(x)
-        return self.fc_out(x)
+
+        if return_all:
+            layer_outputs = []
+            for layer in self.layers:
+                x = layer(x)
+                normed = self.norm(x)
+                logits = self.fc_out(normed)
+                layer_outputs.append(logits)
+            return layer_outputs
+        else:
+            for layer in self.layers:
+                x = layer(x)
+            x = self.norm(x)
+            return self.fc_out(x)
+
 
 
 def build_vocab(dataset, tokenizer=lambda x: x.lower().split(), min_freq=1):
@@ -155,4 +166,4 @@ def load_wikitext_data(seq_length=100, batch_size=32):
     val_dataset = WikiTextDataset(dataset['validation'], seq_length)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size)
-    return train_loader, val_loader, len(vocab)
+    return train_loader, val_loader, len(vocab), vocab

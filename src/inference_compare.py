@@ -1,4 +1,5 @@
 import math
+import time
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -79,7 +80,7 @@ class TransformerDecoderLayer(nn.Module):
 
     def forward(self, x):
         if self.training and torch.rand(1).item() < self.skip_prob:
-            return x  # skip entire block
+            return x
         identity = x
         x = self.norm1(x)
         x = identity + self.dropout1(self.attn(x))
@@ -112,12 +113,12 @@ class DecoderOnlyTransformer(nn.Module):
         for layer in self.layers:
             x = layer(x)
             if return_all:
-                logits = self.fc_out(self.norm(x))  # intermediate prediction
+                logits = self.fc_out(self.norm(x))
                 all_logits.append(logits)
 
         x = self.norm(x)
         final_logits = self.fc_out(x)
-        all_logits.append(final_logits)  # append final output as well
+        all_logits.append(final_logits)
 
         if not return_all:
             return final_logits
@@ -176,29 +177,78 @@ def load_wikitext_data(seq_length=100, batch_size=32):
 
 if __name__ == "__main__":
     train_loader, val_loader, vocab_size, dataset, vocab = load_wikitext_data()
-    
-    # Inverse vocab for decoding token IDs to words
     id_to_token = {idx: token for token, idx in vocab.items()}
+    x, y = next(iter(val_loader))
+    x, y = x[:1], y[:1]  # reduce to batch size 1 for fair timing
+    loss_fn = nn.CrossEntropyLoss()
 
-    # Print one batch
-    for batch_idx, (inputs, targets) in enumerate(train_loader):
-        print(f"\nBatch {batch_idx + 1}")
-        for i in range(min(3, inputs.size(0))):  # print first 3 sequences in the batch
-            input_ids = inputs[i].tolist()
-            target_ids = targets[i].tolist()
+    # -----------------------------
+    # Baseline model inference
+    # -----------------------------
+    base_model = DecoderOnlyTransformer(
+        vocab_size=vocab_size,
+        d_model=512,
+        num_layers=12,
+        num_heads=8,
+        d_ff=2048,
+        max_seq_len=100,
+        dropout=0.1,
+        max_skip_prob=0.0,
+    ).eval()
 
-            input_tokens = [id_to_token.get(tok, "<unk>") for tok in input_ids]
-            target_tokens = [id_to_token.get(tok, "<unk>") for tok in target_ids]
+    with torch.no_grad():
+        start = time.time()
+        logits = base_model(x)
+        time_base = time.time() - start
+        loss_base = loss_fn(logits.view(-1, logits.size(-1)), y.view(-1)).item()
+        ppl_base = math.exp(loss_base)
 
-            # Attempt to find matching original sentence from dataset (based on overlap)
-            matched_raw_text = ""
-            for example in dataset["train"]:
-                if all(tok in example["input_ids"] for tok in input_ids[:5]):
-                    matched_raw_text = example["text"]
-                    break
+    print("=== Baseline ===")
+    print(f"Time: {time_base:.4f} sec | Perplexity: {ppl_base:.2f}")
 
-            print(f"\nSample {i + 1}")
-            print("Original Text (approx match):", matched_raw_text.strip()[:300], "...")
-            print("Input (x):", " ".join(input_tokens))
-            print("Target (y):", " ".join(target_tokens))
-        break
+    # -----------------------------
+    # DEE model (return_all = True)
+    # -----------------------------
+    dee_model = DecoderOnlyTransformer(
+        vocab_size=vocab_size,
+        d_model=512,
+        num_layers=12,
+        num_heads=8,
+        d_ff=2048,
+        max_seq_len=100,
+        dropout=0.1,
+        max_skip_prob=0.3  # simulate training with layer skip
+    ).eval()
+
+    with torch.no_grad():
+        start = time.time()
+        _, losses_dee = dee_model(x, targets=y, return_all=True)
+        time_dee = time.time() - start
+        loss_dee = losses_dee[-1].item()
+        ppl_dee = math.exp(loss_dee)
+
+    print("=== Dynamic Early Exit (DEE) ===")
+    print(f"Time: {time_dee:.4f} sec | Perplexity: {ppl_dee:.2f}")
+
+    # -----------------------------
+    # Self-Speculative Decoding (SSD)
+    # -----------------------------
+    def self_speculative_decode(model, x, draft_layer=3, k=4):
+        with torch.no_grad():
+            x_embed = model.embedding(x) * math.sqrt(model.embedding.embedding_dim)
+            x_embed = model.pos_encoder(x_embed)
+            for i, layer in enumerate(model.layers[:draft_layer]):
+                x_embed = layer(x_embed)
+            draft_logits = model.fc_out(model.norm(x_embed))
+            topk = torch.topk(draft_logits[:, -1], k, dim=-1).indices
+            return topk  # simplified SSD mock
+
+    ssd_model = dee_model  # same weights as DEE
+
+    start = time.time()
+    ssd_tokens = self_speculative_decode(ssd_model, x)
+    time_ssd = time.time() - start
+    # Not decoding here, just speed test
+    print("=== Self-Speculative Decoding (SSD) ===")
+    print(f"Time: {time_ssd:.4f} sec | Top-K Next Tokens: {ssd_tokens.tolist()}")
+

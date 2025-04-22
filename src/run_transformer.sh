@@ -15,3 +15,13 @@ python src/train_eval.py \
     --epochs 1 \
     --batch_size 32 \
     --lr 0.0001 \
+
+python train_decoder.py \
+    --train \
+    --epochs 20 \
+    --seq_length 512 \
+    --batch_size 32 \
+    --max_skip_prob 0.1 \
+    --d_model 512 \
+    --num_layers 12 \
+    --d_ff 2048 
