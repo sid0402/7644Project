@@ -12,11 +12,15 @@ Large Language Models (LLMs) offer state-of-the-art performance across many NLP 
 │   ├── train_decoder.py    # Training script
 │   ├── generate_decoder_text.py  # Text generation script
 │   ├── decoder_model.py    # Model architecture
-│   └── decoder_checkpoints/ # Saved model checkpoints
-└── TestNew/               # Testing and evaluation code
-    ├── EED.py            # Early Exit Decoding implementation
-    ├── SSD.py            # Self-Speculative Decoding implementation
-    └── tokenizer.py      # Custom tokenizer
+│   ├── decoder_checkpoints/ # Saved model checkpoints
+│   └── LayerSkip Modifications/  # Early exit and speculative decoding
+│       ├── infer.py        # Inference with DEE and SSD
+│       ├── model.py        # Model architecture
+│       ├── decoder.py      # Decoder implementation
+│       ├── calibrate.py    # Threshold calibration
+│       ├── calm_thresholds.json  # CALM thresholds
+│       └── mymodel_earlyexit.pt  # Pre-trained model
+└── logs/                   # Training and evaluation logs
 ```
 
 ## Setup
