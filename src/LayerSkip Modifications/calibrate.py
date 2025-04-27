@@ -1,18 +1,10 @@
-# calibrate.py ──────────────────────────────────────────────────────────
-"""
-Pick a per‑layer CALM threshold λ  such that P(disagree) ≤ δ (1 % by default)
-using the *margin score*  (p_top − p_2nd).
-
-Outputs  calm_thresholds.json  in the same directory.
-"""
 
 import math, json, torch, torch.nn.functional as F
 from torch.utils.data import DataLoader
 from datasets import load_dataset
-import decoder                                      # your model + build_vocab
+import decoder 
 from decoder import DecoderOnlyTransformer, build_vocab
 
-# ───────────────────────── hyper‑parameters MUST match checkpoint ─────
 hyper = dict(
     vocab_size   = 66651,
     d_model      = 128,
@@ -27,12 +19,11 @@ hyper = dict(
 CKPT         = "mymodel_earlyexit_noLS.pt"
 OUT_JSON     = "calm_thresholds_noLS.json"
 BATCH_SIZE   = 16
-MAX_VAL_TOKS = 300_000          # speed – feel free to raise
-DELTA        = 0.01            # target disagreement rate (1 %)
+MAX_VAL_TOKS = 300_000         
+DELTA        = 0.01            
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-# ───────────────────────── util: attach heads (same as retrofit) ──────
 def attach_exit_heads(model):
     if hasattr(model, "exit_heads") and len(model.exit_heads):
         return
@@ -44,13 +35,12 @@ def attach_exit_heads(model):
         heads.append(h)
     model.exit_heads = heads
 
-# ───────────────────────── CALM margin score ──────────────────────────
-def margin_score(logits):                          # shape (B, V)
+def margin_score(logits):     
     probs = logits.softmax(-1)
     top2  = probs.topk(2, -1).values
-    return (top2[..., 0] - top2[..., 1])           # (B,)
+    return (top2[..., 0] - top2[..., 1])  
 
-def calm_max(logits):                 # softmax max
+def calm_max(logits):    
     return logits.softmax(-1).max(-1).values
 
 
@@ -72,7 +62,7 @@ for ex in ds_val:
 val_toks = val_toks[:MAX_VAL_TOKS]
 seq_len  = hyper["max_seq_len"]
 
-def chunks(lst, n):             # yield lists of length n
+def chunks(lst, n):        
     for i in range(0, len(lst)-n, n):
         yield lst[i:i+n]
 
@@ -84,7 +74,6 @@ def collate(batch):
 loader = DataLoader(val_data, batch_size=BATCH_SIZE,
                     shuffle=False, collate_fn=collate)
 
-# ───────────────────────── load model & collect stats ─────────────────
 print("→ loading model")
 model = DecoderOnlyTransformer(**hyper).to(device)
 attach_exit_heads(model)
@@ -102,28 +91,24 @@ print("→ scanning validation set")
 with torch.no_grad():
     for x, _ in loader:
         x = x.to(device)
-
-        # ----- forward manually so we can store every layer's output -----
         h = model.embedding(x) * math.sqrt(model.embedding.embedding_dim)
         h = model.pos_encoder(h)
 
         hiddens = []
         for layer in model.layers:
-            h = layer(h)            # (B, T, d_model)
+            h = layer(h)    
             hiddens.append(h)
         h_final = model.norm(h)
-        logits  = model.fc_out(h_final)          # (B, T, V)
+        logits  = model.fc_out(h_final)       
         final_pred = logits.argmax(-1)
 
-        # ----- collect scores & agreement --------------------------------
         for l, h_l in enumerate(hiddens):
-            out = model.exit_heads[l](h_l)       # (B, T, V)
-            #sc  = margin_score(out)              # (B, T)
+            out = model.exit_heads[l](h_l) 
             sc = calm_max(out)
             score_bank[l].append(sc.flatten())
             agree_bank[l].append((out.argmax(-1) == final_pred).flatten())
 
-# ───────────────────────── choose λ per layer ────────────────────────
+
 print("→ selecting λ per layer (δ = 1%)")
 lam = []
 for l in range(L):

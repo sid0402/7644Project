@@ -1,9 +1,3 @@
-# retrofit.py ----------------------------------------------------------
-"""
-Add one weight‑tied LM head to every layer of your pretrained decoder.
-NO training – just load weights, add heads, save a new checkpoint.
-"""
-
 import torch, torch.nn as nn
 from decoder import DecoderOnlyTransformer
 

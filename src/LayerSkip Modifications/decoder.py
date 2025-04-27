@@ -20,7 +20,7 @@ class PositionalEncoding(nn.Module):
 
     def forward(self, x):
         T = x.size(1)
-        if T > self.pe.size(1):                       # need a longer table
+        if T > self.pe.size(1):          
             extra = T - self.pe.size(1)
             pos     = torch.arange(self.pe.size(1), T, dtype=torch.float,
                                 device=x.device).unsqueeze(1)
