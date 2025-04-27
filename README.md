@@ -12,11 +12,15 @@ Large Language Models (LLMs) offer state-of-the-art performance across many NLP 
 │   ├── train_decoder.py    # Training script
 │   ├── generate_decoder_text.py  # Text generation script
 │   ├── decoder_model.py    # Model architecture
-│   └── decoder_checkpoints/ # Saved model checkpoints
-└── TestNew/               # Testing and evaluation code
-    ├── EED.py            # Early Exit Decoding implementation
-    ├── SSD.py            # Self-Speculative Decoding implementation
-    └── tokenizer.py      # Custom tokenizer
+│   ├── decoder_checkpoints/ # Saved model checkpoints
+│   └── LayerSkip Modifications/  # Early exit and speculative decoding
+│       ├── infer.py        # Inference with DEE and SSD
+│       ├── model.py        # Model architecture
+│       ├── decoder.py      # Decoder implementation
+│       ├── calibrate.py    # Threshold calibration
+│       ├── calm_thresholds.json  # CALM thresholds
+│       └── mymodel_earlyexit.pt  # Pre-trained model
+└── logs/                   # Training and evaluation logs
 ```
 
 ## Setup
@@ -80,7 +84,7 @@ Parameters:
 - `max_length`: Maximum length of generated text
 - `temperature`: Sampling temperature (higher = more random)
 
-### Example Usage
+## Example Usage
 
 Here are some quick examples to get started with the src code:
 
@@ -135,92 +139,66 @@ python src/train_decoder.py --train --eval \
 
 The model checkpoints will be saved in the `decoder_checkpoints` directory with names indicating their configuration and performance.
 
-## Testing Early Exit and Speculative Decoding
+## LayerSkip Modifications
 
-The TestNew directory contains implementations of Early Exit Decoding (EED) and Self-Speculative Decoding (SSD):
-
-1. Early Exit Decoding:
-```bash
-python TestNew/EED.py
-```
-
-2. Self-Speculative Decoding:
-```bash
-python TestNew/SSD.py
-```
-
-## Running TestNew Code
-
-The TestNew directory contains experimental implementations of early exit and speculative decoding techniques. Here's how to use them:
+The `src/LayerSkip Modifications` directory contains the implementation of early exit and speculative decoding techniques:
 
 ### Directory Structure
 ```
-TestNew/
-├── EED.py            # Early Exit Decoding implementation
-├── SSD.py            # Self-Speculative Decoding implementation
-├── tokenizer.py      # Custom tokenizer
-└── best_decoder_d128_h8_l6_ff512_dp0.1_ls0_e1_val6.4181.pt  # Pre-trained model checkpoint
+LayerSkip Modifications/
+├── infer.py              # Inference with DEE and SSD
+├── model.py              # Model architecture
+├── decoder.py            # Decoder implementation
+├── calibrate.py          # Threshold calibration
+├── calm_thresholds.json  # CALM thresholds for DEE
+├── mymodel_earlyexit.pt  # Pre-trained model with LayerSkip
+└── mymodel_earlyexit_noLS.pt  # Pre-trained model without LayerSkip
 ```
 
-### Early Exit Decoding (EED)
-The EED implementation allows tokens to exit early based on confidence thresholds:
-
+### Dynamic Early Exit (DEE)
+To run inference with Dynamic Early Exit:
 ```bash
-python TestNew/EED.py
+python src/LayerSkip\ Modifications/infer.py \
+    --checkpoint mymodel_earlyexit.pt \
+    --prompt "Your prompt here" \
+    --mode dee \
+    --conf 0.9
 ```
 
-Key parameters in EED:
-- `threshold`: Confidence threshold for early exit (default: 0.9)
-- `max_length`: Maximum sequence length to generate
-- `eos_token_id`: End of sequence token ID
+Parameters:
+- `--checkpoint`: Path to model checkpoint
+- `--prompt`: Input text prompt
+- `--mode`: Set to "dee" for Dynamic Early Exit
+- `--conf`: Confidence threshold (default: 0.9)
+- `--lam_file`: Optional JSON file with per-layer thresholds
 
 ### Self-Speculative Decoding (SSD)
-SSD uses the same model for both draft and verification phases:
-
+To run inference with Self-Speculative Decoding:
 ```bash
-python TestNew/SSD.py
+python src/LayerSkip\ Modifications/infer.py \
+    --checkpoint mymodel_earlyexit.pt \
+    --prompt "Your prompt here" \
+    --mode ssd \
+    --draft_layer 3 \
+    --k 4
 ```
 
-Key parameters in SSD:
-- `k`: Number of draft tokens to generate before verification
-- `max_length`: Maximum sequence length to generate
-- `eos_token_id`: End of sequence token ID
+Parameters:
+- `--checkpoint`: Path to model checkpoint
+- `--prompt`: Input text prompt
+- `--mode`: Set to "ssd" for Self-Speculative Decoding
+- `--draft_layer`: Layer to use for draft generation
+- `--k`: Number of tokens to draft before verification
 
-### Using the Pre-trained Model
-The TestNew directory includes a pre-trained model checkpoint:
-- Model: 6-layer decoder
-- Embedding dimension: 128
-- Number of heads: 8
-- Feed-forward dimension: 512
-- Dropout: 0.1
-- Layer skip probability: 0.1
-
-To use this model:
-1. The checkpoint is automatically loaded by both EED.py and SSD.py
-2. The model uses the custom tokenizer from tokenizer.py
-3. Default prompt: "The history of language models"
-
-### Example Usage
-```python
-from TestNew.EED import early_exit_generate
-from TestNew.SSD import ssd_generate
-from TestNew.tokenizer import SimpleTokenizer
-
-# Load model and tokenizer
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = load_model_from_checkpoint("best_decoder_d128_h8_l6_ff512_dp0.1_ls0_e1_val6.4181.pt", device)
-tokenizer = SimpleTokenizer(vocab)
-
-# Generate text with early exit
-prompt = "The history of language models"
-input_ids = tokenizer.encode(prompt)
-output_ids = early_exit_generate(model, input_ids, max_length=50, threshold=0.9)
-print(tokenizer.decode(output_ids[0]))
-
-# Generate text with SSD
-output_ids = ssd_generate(model, model, input_ids, max_length=50, k=4)
-print(tokenizer.decode(output_ids[0]))
+### Threshold Calibration
+To calibrate thresholds for DEE:
+```bash
+python src/LayerSkip\ Modifications/calibrate.py \
+    --checkpoint mymodel_earlyexit.pt \
+    --output calm_thresholds.json
 ```
+
+This will generate per-layer confidence thresholds optimized for your model.
 
 ## Model Architecture
 
